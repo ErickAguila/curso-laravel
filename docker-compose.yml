@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: xampp_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    command: --innodb_temp_data_file_path=ibtmp1:12M:autoextend:max:512M
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - xampp-net
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: xampp_phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - db
+    networks:
+      - xampp-net
+
+  composer:
+    image: composer:latest
+    container_name: xampp_composer
+    volumes:
+      - ./www:/app
+    working_dir: /app
+    command: ["tail", "-f", "/dev/null"] # Esto mantiene el contenedor corriendo en segundo plano
+    networks:
+      - xampp-net
+
+volumes:
+  db_data:
+
+networks:
+  xampp-net:
+    driver: bridge
