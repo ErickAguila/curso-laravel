@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckValueInHeader;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,7 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // $middleware->append(CheckValueInHeader::class);
+        $middleware->alias([
+            'checkvalue' => CheckValueInHeader::class,
+            // 'uppercase' => UppercaseName::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

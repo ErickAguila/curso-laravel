@@ -2,13 +2,17 @@
 use App\Http\Controllers\BackendController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QueierisController;
+use App\Http\Middleware\CheckValueInHeader;
+use App\Http\Middleware\LogRequest;
+use App\Http\Middleware\UppercaseName;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function() {
     return 'El backend funciona correctamente'; 
 });
 
-Route::get('/backend', [BackendController::class, 'getAll']);
+Route::get('/backend', [BackendController::class, 'getAll'])
+    ->middleware('checkvalue');
 Route::get('/backend/{id?}', [BackendController::class, 'get']);
 Route::post('/backend', [BackendController::class, 'create']);
 Route::put('/backend/{id}', [BackendController::class, 'update']);
@@ -22,4 +26,5 @@ Route::post('/query/method/advancedSearch', [QueierisController::class, 'advance
 Route::get('/query/method/join', [QueierisController::class, 'join']);
 Route::get('/query/method/groupby', [QueierisController::class, 'groupBy']);
 
-Route::apiResource('/product', ProductController::class);
+Route::apiResource('/product', ProductController::class)
+    ->middleware(LogRequest::class);

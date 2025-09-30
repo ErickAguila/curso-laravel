@@ -50,6 +50,9 @@ php artisan make:model NOMBRE_MODELO
 # Crear un nuevo request
 php artisan make:request UpdateProductRequest
 
+# Crear un middleware
+php artisan make:middleware CheckValueInHeader
+
 ```
 
 ### Manejo de base de datos
@@ -70,4 +73,12 @@ php artisan migrate:rollback
 # Eliminar todas las migraciones
 php artisan migrate:reset
 
+```
+
+### Levantar base de datos con Docker
+
+```
+docker-compose up -d
+
+php artisan migrate
 ```
