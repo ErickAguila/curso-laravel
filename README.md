@@ -47,6 +47,9 @@ php artisan make:controller NOMBRE_CONTROLADOR
 # Crear un modelo
 php artisan make:model NOMBRE_MODELO
 
+# Crear un nuevo request
+php artisan make:request UpdateProductRequest
+
 ```
 
 ### Manejo de base de datos
